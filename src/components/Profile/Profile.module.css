@@ -1,0 +1,15 @@
+.content {
+    grid-area: content;
+    background-color: #154b15;
+}
+
+.img {
+    max-height: 250px;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.img img {
+    height: auto;
+    max-width: 100%;
+}
