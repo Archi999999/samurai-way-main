@@ -1,8 +1,15 @@
-import {ActionsType, AddPostActionType, PostType, UpdateTextActionType} from "./store";
+import message from "../components/Dialogs/Message/Message";
 
-type InitialStateType = {
-    posts:PostType[]
+
+export type InitialStateType = {
+    posts: PostType[]
     updateText: string
+}
+
+export type PostType = {
+    id: number
+    message: string
+    likesCount: number
 }
 
 const initialState: InitialStateType = {
@@ -17,37 +24,47 @@ const initialState: InitialStateType = {
     updateText: '',
 }
 
-const profileReducer = (state = initialState, action: ActionsType) :InitialStateType => {
+const profileReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'ADD-POST' :
-            let newPost: PostType = {
-                id: 5,
-                message: action.postMessage,
-                likesCount: 0
-            };
-            state.posts.unshift(newPost);
-            state.updateText = ('');
-            return state;
+            // let newPost: PostType = {
+            //     id: 5,
+            //     message: action.postMessage,
+            //     likesCount: 0
+            // };
+            // state.posts.unshift(newPost);
+            // state.updateText = ('');
+            return {
+                ...state,
+                posts: [{id: 5, message: action.postMessage, likesCount: 0}, ...state.posts],
+                updateText: ''
+            }
         case 'UPDATE-TEXT' :
-            state.updateText = action.postMessage;
-            return state;
-        default : return state;
+            // state.updateText = action.postMessage;
+            return {...state, updateText: action.payload.postMessage}
+        default :
+            return state
     }
 }
 
-// type ProfileReducerACType = {}
+type ActionsType = ProfileReducerACType | UpdatePostTextACType
 
-export const addPostAC = (postMessage:string):AddPostActionType => {
-    return{
-        type:'ADD-POST',
+type ProfileReducerACType = ReturnType<typeof addPostAC>
+
+export const addPostAC = (postMessage: string) => {
+    return {
+        type: 'ADD-POST',
         postMessage
-    }as const
+    } as const
 }
 
-export const updatePostTextAC = (postMessage:string):UpdateTextActionType => {
-    return{
-        type:'UPDATE-TEXT',
-        postMessage
-    }as const
+type UpdatePostTextACType = ReturnType<typeof updatePostTextAC>
+export const updatePostTextAC = (postMessage: string) => {
+    return {
+        type: 'UPDATE-TEXT',
+        payload: {
+            postMessage
+        }
+    } as const
 }
 export default profileReducer;

@@ -1,15 +1,18 @@
-import {
-    ActionsType,
-    DialogType,
-     MessageType,
-    SendMessageActionType,
-    UpdateMessageTextActionType
-} from "./store";
 
-type InitialStateType = {
+export type InitialStateType = {
     dialogsData: DialogType[]
     messagesData: MessageType[]
     updateMessageText: string
+}
+
+export type DialogType = {
+    id: number
+    name: string
+}
+
+export type MessageType = {
+    id: number
+    message: string
 }
 
 const initialState: InitialStateType = {
@@ -36,25 +39,35 @@ const dialogsReducer = (state = initialState, action: ActionsType): InitialState
 
     switch (action.type) {
         case 'SEND-MESSAGE' :
-            const newMessage = {id: 1, message: state.updateMessageText};
-            // state.messagesPage.messagesData.
-            state.messagesData.push(newMessage)
-            state.updateMessageText = '';
-            return state
+            // const newMessage = {id: 1, message: state.updateMessageText};
+            // // state.messagesPage.messagesData.
+            // state.messagesData.push(newMessage)
+            // state.updateMessageText = '';
+            return {
+                ...state,
+                messagesData:[{id:1, message: state.updateMessageText}, ...state.messagesData],
+                updateMessageText:''
+            }
         case 'UPDATE-MESSAGE-TEXT':
-            state.updateMessageText = action.dialogMessage;
-            return state;
+            // state.updateMessageText = action.dialogMessage;
+            return {...state, updateMessageText:action.dialogMessage}
         default:
             return state
     }
 }
+type ActionsType = SendMessageACType | UpdateMessageTextACType
 
-export const sendMessageAC = (): SendMessageActionType => {
+type SendMessageACType = ReturnType<typeof sendMessageAC>
+
+
+export const sendMessageAC = () => {
     return {
         type: 'SEND-MESSAGE'
     }as const
 }
-export const updateMessageTexAC = (dialogMessage: string): UpdateMessageTextActionType => {
+
+type UpdateMessageTextACType = ReturnType<typeof updateMessageTexAC>
+export const updateMessageTexAC = (dialogMessage: string) => {
     return {
         type: 'UPDATE-MESSAGE-TEXT',
         dialogMessage
