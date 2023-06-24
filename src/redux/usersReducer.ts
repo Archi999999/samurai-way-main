@@ -1,7 +1,9 @@
-import {useState} from "react";
 
 export type InitialUsersStateType = {
     users: UserType[]
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
 }
 
 // export type UserType = {
@@ -30,7 +32,10 @@ export type UserType = {
 // const [users, setUsers] = useState<UserType[]>([])
 
 const initialState: InitialUsersStateType = {
-    users: []
+    users: [],
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 1
 }
 
 const usersReducer = (state = initialState, action: ActionsType): InitialUsersStateType => {
@@ -39,14 +44,17 @@ const usersReducer = (state = initialState, action: ActionsType): InitialUsersSt
             return {...state, users:state.users.map(user=> user.id === action.payload.userId ? {...user, followed: !user.followed} : user)}
         }
         case "SET_USERS": {
-            return {...state, users: [...state.users, ...action.payload.users]}
+            return {...state, users: [...action.payload.users]}
+        }
+        case "SET_CURRENT_PAGE":{
+            return {...state, currentPage: action.payload.currentPage}
         }
         default :
             return state
     }
 }
 
-type ActionsType = SetUsersACType | FollowACType
+type ActionsType = SetUsersACType | FollowACType | SetCurrentPageACType
 
 type SetUsersACType = ReturnType<typeof setUsersAC>
 
@@ -59,6 +67,15 @@ export const setUsersAC = (users: UserType[]) => {
     } as const
 }
 
+export const setCurrentPageAC = (currentPage: number) => {
+    return{
+        type: 'SET_CURRENT_PAGE',
+        payload: {
+            currentPage
+        }
+    }as const
+}
+
 type FollowACType = ReturnType<typeof followAC>
 export const followAC = (userId: number) => {
     return {
@@ -68,4 +85,7 @@ export const followAC = (userId: number) => {
         }
     } as const
 }
+
+type SetCurrentPageACType = ReturnType<typeof setCurrentPageAC>
+
 export default usersReducer;

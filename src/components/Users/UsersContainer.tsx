@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import UsersC from "./UsersС";
-import {followAC, InitialUsersStateType, setUsersAC, UserType} from "../../redux/usersReducer";
+import {followAC, InitialUsersStateType, setCurrentPageAC, setUsersAC, UserType} from "../../redux/usersReducer";
 import {RootState} from "../../redux/store";
 import { Dispatch } from "redux";
 
@@ -11,15 +11,17 @@ export type UsersPagePropsType = MapDispatchToPropsReturnType & MapStateToPropsR
 type MapDispatchToPropsReturnType = {
     follow : (userId: number) => void
     setUsers: (users: UserType[]) => void
+    setCurrentPage: (page:number) =>void
 }
 
-type MapStateToPropsReturnType = {
-    users: UserType[]
-}
+type MapStateToPropsReturnType = InitialUsersStateType
 
-const mapStateToProps = (state: RootState):InitialUsersStateType => {
+const mapStateToProps = (state: RootState):MapStateToPropsReturnType => {
     return {
-        users: state.usersPage.users
+        users: state.usersPage.users,
+        pageSize: state.usersPage.pageSize,
+        totalUsersCount: state.usersPage.totalUsersCount,
+        currentPage: state.usersPage.currentPage
     }
 }
 
@@ -31,6 +33,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         },
         setUsers: (users: UserType[]) => {
             dispatch(setUsersAC(users))
+        },
+        setCurrentPage: (page:number) =>{
+            dispatch(setCurrentPageAC(page))
         }
     }
 };
