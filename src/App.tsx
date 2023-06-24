@@ -5,6 +5,8 @@ import Nav from './components/Nav/Nav';
 import Profile from './components/Profile/Profile';
 import {Route, Routes} from 'react-router-dom';
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import UsersContainer from "./components/Users/UsersContainer";
+import FriendsContainer from './components/Friends/FriendsContainer';
 
 
 type AppProps = {
@@ -26,11 +28,11 @@ function App(props: AppProps) {
                                //               dispatch={props.dispatch}
                            />}/>
                     <Route path={'/dialogs'}
-                           element={<DialogsContainer
-                               // store={props.store}
-                               // messagePage={props.state.dialogsPage}
-                               //               dispatch = {props.dispatch}
-                           />}/>
+                           element={<DialogsContainer/>}/>
+                    <Route path={'/users'}
+                           element={<UsersContainer/>}/>
+                    {/*<Route path={'/friends'}*/}
+                    {/*       // element={<FriendsContainer/>}/>*/}
                 </Routes>
             </div>
         </div>

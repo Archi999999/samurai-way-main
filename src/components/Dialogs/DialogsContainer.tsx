@@ -1,41 +1,10 @@
-import React, {ChangeEvent, Dispatch} from 'react';
+import React, {ChangeEvent} from 'react';
 import {DialogType, MessageType, sendMessageAC, updateMessageTexAC} from "../../redux/dialogsReducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {RootState} from "../../redux/store";
-import {AnyAction} from "redux";
+import { Dispatch } from 'redux';
 
-
-
-// type DialogsPropsType = {
-//     store: StoreType
-// }
-
-// export const DialogsContainer = () => {
-//
-//
-//     return (
-//         <StoreContext.Consumer>
-//             {(store:any) => {
-//
-//                 const messagesPage = store.getState().messagesPage
-//                 // const navigate = useNavigate();
-//                 const sendMessageHandler = () => {
-//                     store.dispatch(sendMessageAC())
-//                 }
-//
-//                 const updateMessageTextHandler = (e: ChangeEvent<HTMLInputElement>) => {
-//                     store.dispatch(updateMessageTexAC(e.currentTarget.value))
-//                 }
-//
-//                 return (
-//                     <Dialogs sendMessageHandler={sendMessageHandler} updateMessageTextHandler={updateMessageTextHandler}
-//                              messagePage={messagesPage}/>)
-//             }
-//             }
-//         </StoreContext.Consumer>
-//     )
-// }
 
 type MapStateToPropsReturnType ={
     dialogsData:DialogType[]
@@ -58,7 +27,7 @@ let mapStateToProps = (state:RootState):MapStateToPropsReturnType=> {
 
     }
 }
-let mapDispathToProps = (dispatch:Dispatch<AnyAction>):MapDispatchToPropsReturnType=> {
+let mapDispathToProps = (dispatch:Dispatch):MapDispatchToPropsReturnType=> {
     return{
         updateMessageTextHandler: (e: ChangeEvent<HTMLInputElement>)=>{
             dispatch(updateMessageTexAC(e.currentTarget.value))

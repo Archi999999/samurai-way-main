@@ -45,7 +45,7 @@ const dialogsReducer = (state = initialState, action: ActionsType): InitialState
             // state.updateMessageText = '';
             return {
                 ...state,
-                messagesData:[{id:1, message: state.updateMessageText}, ...state.messagesData],
+                messagesData:[...state.messagesData, {id:1, message: state.updateMessageText}],
                 updateMessageText:''
             }
         case 'UPDATE-MESSAGE-TEXT':
